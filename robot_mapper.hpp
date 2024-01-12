@@ -10,7 +10,7 @@
 
 namespace rbmp {
 
-static const std::string kMapPath = "/root/master/WPIE/RMIntelligentVision/robot_mapper/robot_map.txt";
+static const std::string kMapPath = "/root/master/WPIE/RMIntelligentVision/robot_mapper/robot_map.conf";
 static const std::string kDelimiter = ":";
 
 namespace enum_reflect {
@@ -141,8 +141,7 @@ constexpr std::string_view enum2string(E V) {
 }
 }  // namespace enum_reflect
 
-std::string ExecCmd(std::string_view cmd) {
-    return "yz123";
+static std::string ExecCmd(std::string_view cmd) {
     FILE* pipe = popen(cmd.data(), "r");
     if (!pipe) {
         return "";
