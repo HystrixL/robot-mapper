@@ -141,6 +141,10 @@ constexpr std::string_view enum2string(E V) {
 }
 }  // namespace enum_reflect
 
+static void Trim(std::string& sv) {
+    sv.erase(std::remove_if(sv.begin(), sv.end(), ::isspace), sv.end());
+}
+
 static std::string ExecCmd(std::string_view cmd) {
     FILE* pipe = popen(cmd.data(), "r");
     if (!pipe) {
@@ -159,6 +163,7 @@ static std::string ExecCmd(std::string_view cmd) {
     if (feof(pipe) != 0) {
         result.append(buf, ret);
     }
+    Trim(result);
     return result;
 }
 
@@ -171,12 +176,15 @@ static std::map<std::string, std::string> GenerateMap() {
         auto tokens = line | std::ranges::views::split(kDelimiter) | std::views::transform([](auto&& token) {
                           return std::string_view(&*token.begin(), std::ranges::distance(token));
                       });
+
         auto it = std::ranges::begin(tokens);
         auto type = std::string{*it};
-        type.erase(std::remove_if(type.begin(), type.end(), ::isspace), type.end());
+        Trim(type);
+
         std::ranges::advance(it, 1);
         auto sn = std::string{*it};
-        sn.erase(std::remove_if(sn.begin(), sn.end(), ::isspace), sn.end());
+        Trim(sn);
+
         map[sn] = type;
     }
     return map;
