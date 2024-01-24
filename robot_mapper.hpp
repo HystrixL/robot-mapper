@@ -10,7 +10,7 @@
 
 namespace rbmp {
 
-static const std::string kMapPath = "/root/master/WPIE/RMIntelligentVision/robot_mapper/robot_map.conf";
+static const std::string kMapPath = "../src/utils/robot_mapper/robot_map.conf";
 static const std::string kDelimiter = ":";
 
 namespace enum_reflect {
